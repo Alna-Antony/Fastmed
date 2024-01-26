@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+{% extends 'index.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="table-responsive" >
+                      <table width="100%">
+                        <thead>
+                          <tr>
+                            <th>Categoryname</th>
+                            <th>Description</th>
+                            <th>Image</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in cat %}
+                          <tr>
+                            <td>{{ i.categoryname }}</td>
+                            <td>{{ i.description }}</td>
+                              <td>
+                              <img src="{{ i.categoryimage.url }}"width="100px" height="100px">
+                            </td>
+                               <td>
+                                  <form action="{% url 'catedit' catid=i.id %}">
+                                       <button type="submit" class="btn btn-primary mr-2">Edit</button>
+                                  </form><br><br>
+                              </td>
+                               <td>
+                                  <form action="{% url 'catdelete' catid=i.id %}">
+                                      <button type="submit" class="btn btn-primary mr-2">Delete</button>
+
+                                  </form><br><br>
+                              </td>
+                          </tr>
+
+                        {% endfor %}
+<!--                         > <tr>-->
+<!--                            <td>Messsy</td>-->
+<!--                            <td>53275532</td>-->
+<!--                            <td>15 May 2017</td>-->
+<!--                            <td><label class="badge badge-warning">In progress</label></td>-->
+<!--                          </tr>-->
+<!--                          <tr>-->
+<!--                            <td>John</td>-->
+<!--                            <td>53275533</td>-->
+<!--                            <td>14 May 2017</td>-->
+<!--                            <td><label class="badge badge-info">Fixed</label></td>-->
+<!--                          </tr>-->
+<!--                          <tr>-->
+<!--                            <td>Peter</td>-->
+<!--                            <td>53275534</td>-->
+<!--                            <td>16 May 2017</td>-->
+<!--                            <td><label class="badge badge-success">Completed</label></td>-->
+<!--                          </tr>-->
+<!--                          <tr>-->
+<!--                            <td>Dave</td>-->
+<!--                            <td>53275535</td>-->
+<!--                            <td>20 May 2017</td>-->
+<!--                            <td><label class="badge badge-warning">In progress</label></td>-->
+<!--                          </tr-->
+                        </tbody>
+                      </table>
+                    </div>
+</body>
+</html>
+{% endblock %}

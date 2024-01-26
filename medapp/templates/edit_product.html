@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+{% extends 'index.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method="post" action="{% url 'proupdate' proid=pro.id %}" enctype="multipart/form-data">
+    {% csrf_token %}
+     <div class="form-group row" style="margin-top:100px">
+                            <label class="col-sm-3 col-form-label">Category</label>
+                            <div class="col-sm-9">
+                              <select class="form-control" name="cname">
+                                <option>Select Category</option>
+                                  {% for i in cat %}
+                                <option>{{ i.categoryname }}</option>
+                                  {% endfor %}
+                              </select>
+                            </div>
+                          </div>
+                      <div class="form-group">
+                        <label for="exampleInputUsername1">ProductName</label>
+                        <input type="text" class="form-control" id="exampleInputUsername1" value="{{ pro.productname }}" placeholder="productname" name="pname">
+                      </div>
+                         <div class="form-group">
+                        <label for="exampleInputUsername1">Price</label>
+                        <input type="text" class="form-control" id="" placeholder="price" name="pprice" value="{{ pro.productprice }}">
+                      </div>
+                        <div class="form-group">
+                        <label for="exampleTextarea1">Description</label>
+                        <textarea class="form-control" id="exampleTextarea1" rows="4" name="pdes">{{ pro.productdescription }}</textarea>
+                      </div>
+                         <div class="form-group">
+                        <label>File upload</label>
+                             <img src="{{ pro.productimage.url }}">
+                        <input type="file" placeholder="upload image" name="pimg"  >
+                      </div>
+    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                      <button class="btn btn-dark">Cancel</button>
+</form>
+</body>
+</html>
+{% endblock %}

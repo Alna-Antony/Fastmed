@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+{% extends 'index.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="card-body" style="margin-top:100px">
+<!--                    <h4 class="card-title">Basic Table</h4>-->
+<!--                    <p class="card-description"> Add class <code>.table</code>-->
+<!--                    </p>-->
+                    <div class="table-responsive">
+                      <table>
+                        <thead>
+                          <tr>
+                            <th>Category Name</th>
+                            <th>Product Name</th>
+                            <th>Product Description</th>
+                            <th>Product Price</th>
+                            <th>Product Image</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in pro %}
+                          <tr>
+                            <td>{{ i.categoryname }}</td>
+                            <td>{{ i.productname }}</td>
+                            <td>{{ i.productdescription }}</td>
+                            <td>{{ i.productprice }}</td>
+                            <td>
+                              <img src="{{ i.productimage.url }}"width="100px" height="100px">
+                            </td>
+                            <td>
+                              <form action="{% url 'proedit' proid=i.id %}">
+                                 <button type="submit" class="btn btn-primary mr-2">Edit</button>
+                              </form>
+                            </td>
+                             <td>
+                              <form action="{% url 'prodelete' proid=i.id %}">
+                                 <button type="submit" class="btn btn-primary mr-2">Delete</button>
+                              </form>
+                            </td>
+                          </tr>
+                        {% endfor %}
+<!--                          <tr>-->
+<!--                            <td>Messsy</td>-->
+<!--                            <td>53275532</td>-->
+<!--                            <td>15 May 2017</td>-->
+<!--                            <td><label class="badge badge-warning">In progress</label></td>-->
+<!--                          </tr>-->
+<!--                          <tr>-->
+<!--                            <td>John</td>-->
+<!--                            <td>53275533</td>-->
+<!--                            <td>14 May 2017</td>-->
+<!--                            <td><label class="badge badge-info">Fixed</label></td>-->
+<!--                          </tr>-->
+<!--                          <tr>-->
+<!--                            <td>Peter</td>-->
+<!--                            <td>53275534</td>-->
+<!--                            <td>16 May 2017</td>-->
+<!--                            <td><label class="badge badge-success">Completed</label></td>-->
+<!--                          </tr>-->
+<!--                          <tr>-->
+<!--                            <td>Dave</td>-->
+<!--                            <td>53275535</td>-->
+<!--                            <td>20 May 2017</td>-->
+<!--                            <td><label class="badge badge-warning">In progress</label></td>-->
+<!--                          </tr>-->
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+</body>
+</html>
+{% endblock %}

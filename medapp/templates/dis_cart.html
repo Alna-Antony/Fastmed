@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+{% extends 'index.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="table-responsive">
+                      <table class="table table-hover">
+                        <thead>
+                          <tr>
+                            <th>Username</th>
+                            <th>Productname</th>
+                            <th>Categoryname</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Totalprice</th>
+                            <th>Prescription</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                         {% for i in cart %}
+                          <tr>
+                            <td>{{ i.username }}</td>
+                            <td>{{ i.productname }}</td>
+                            <td>{{ i.categoryname }}</td>
+                            <td>{{ i.price }}</td>
+                            <td>{{ i.quantity }}</td>
+                            <td>{{ i.totalprice }}</td>
+                              <td>
+    {% if i.prescrip %}
+        <img src="{{ i.prescrip.url }}" width="100px" height="100px">
+    {% else %}
+        No prescription file
+    {% endif %}
+</td>
+
+                          </tr>
+                        {% endfor %}
+                        </tbody>
+                      </table>
+                   </div>
+
+</body>
+</html>
+{% endblock %}

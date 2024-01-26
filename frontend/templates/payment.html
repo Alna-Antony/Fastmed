@@ -1,0 +1,198 @@
+{% load static %}
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>{% block title %}{% endblock  %}</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static '/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static '/css/style.css' %}">
+        <link rel="stylesheet" href="{% static '/images' %}">
+        <link rel="stylesheet" href="{% static '/css/payment.css' %}">
+        <link rel="stylesheet" href="{% static '/images' %}">
+
+
+
+
+
+    </head>
+    <body>
+        <div class="container">
+            <div class="card-container">
+                <div class="front">
+                    <div class="image">
+                        <img src={% static "images/chip.jpg" %}>
+                        <img src={% static "images/visa.png" %}>
+                    </div>
+                    <div class="card-number-box">########################</div>
+                    <div class="flexbox">
+                        <div class="box">
+                            <span>card holder</span>
+                            <div class="card-holder-name">full name</div>
+                        </div>
+                        <div class="box">
+                            <span> expires</span>
+                            <div class="expiration">
+                                <span class="exp-month">mm</span>
+                                <span class="exp-year">yy</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="back">
+                    <div class="stripe"></div>
+                    <div class="box">
+                        <span>cvv</span>
+                        <div class="cvv-box"></div>
+                        <img src={% static "images/chip.jpeg" %}>
+                    </div>
+                </div>
+            </div>
+            <form   method="post" action="{% url 'savepay' %}" enctype="multipart/form-data" name="myform" onsubmit="return validateform()">
+                {% csrf_token %}
+                <div class="inputBox">
+                    <span>card number</span>
+                    <input type="password" maxlength="16"  class="card-number-input"  name="cnum"required>
+                </div>
+                <div class="inputBox">
+                    <span>card holder</span>
+                    <input type="text" class="card-holder-input" name="cname" required>
+                </div>
+                <div class="flexbox">
+                    <div class="inputBox">
+                        <span>expiration mm</span>
+                        <select class="month-input" name="expmm">
+                            <option value="month" selected disabled>month</option>
+                            <option value="01">01</option>
+                            <option value="02">02</option>
+                            <option value="03">03</option>
+                            <option value="04">04</option>
+                            <option value="05">05</option>
+                            <option value="06">06</option>
+                            <option value="07">07</option>
+                            <option value="08">08</option>
+                            <option value="09">09</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
+                    </div>
+                    <div class="inputBox">
+                        <span>expiration yy</span>
+                        <select class="year-input" name="expyy" >
+                            <option value="year" selected disabled>year</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                            <option value="2026">2026</option>
+                            <option value="2027">2027</option>
+                            <option value="2028">2028</option>
+                            <option value="2029">2029</option>
+                            <option value="2030">2030</option>
+                        </select>
+                    </div>
+                    <div class="inputBox">
+                        <span>cvv</span>
+                        <input type="password" maxlength="4" class="cvv-input" name="cvv">
+                    </div>
+
+                </div>
+               <!-- <input type="submit" value="submit" class="submit-btn"-->
+                <button type="submit" class="btn btn-primary btn-lg btn-block">  {% for i in data %}Pay Rs.{{ i.total_price }}    {% endfor %}
+</button>
+
+            </form>
+        </div>
+
+
+
+
+        <script>
+            document.querySelector('.card-number-input').addEventListener('input', function () {
+    const cardNumberInput = this.value;
+    const maskedCardNumber = maskCardNumber(cardNumberInput);
+    document.querySelector('.card-number-box').innerText = maskedCardNumber;
+});
+
+function maskCardNumber(cardNumber) {
+    // Customize the mask based on your needs
+    const maskCharacter = '*';
+    const visibleDigits = 4; // Number of visible digits at the end
+
+    const maskedDigits = cardNumber.slice(0, -visibleDigits).replace(/\d/g, maskCharacter);
+    const visibleDigitsPart = cardNumber.slice(-visibleDigits);
+
+    return maskedDigits + visibleDigitsPart;
+}
+
+
+            document.querySelector('.card-holder-input').oninput = () =>{
+                document.querySelector('.card-holder-name').innerText = document.querySelector('.card-holder-input').value;
+            }
+
+            document.querySelector('.month-input').oninput = () =>{
+                document.querySelector('.exp-month').innerText = document.querySelector('.month-input').value;
+            }
+
+            document.querySelector('.year-input').oninput = () =>{
+                document.querySelector('.exp-year').innerText = document.querySelector('.year-input').value;
+            }
+
+            document.querySelector('.cvv-input').onmouseenter = () =>{
+                document.querySelector('.front').style.transform = 'perspective(1000px) rotateY(-180deg)';
+                document.querySelector('.back').style.transform = 'perspective(1000px) rotateY(0deg)';
+            }
+
+            document.querySelector('.cvv-input').onmouseleave = () =>{
+                document.querySelector('.front').style.transform = 'perspective(1000px) rotateY(0deg)';
+                document.querySelector('.back').style.transform = 'perspective(1000px) rotateY(-180deg)';
+            }
+
+            document.querySelector('.cvv-input').addEventListener('input', function () {
+    const cvvInput = this.value;
+    const maskedCVV = maskCVV(cvvInput);
+    document.querySelector('.cvv-box').innerText = maskedCVV;
+});
+
+function maskCVV(cvv) {
+    // Customize the mask based on your needs
+    const maskCharacter = '*';
+
+    return cvv.replace(/\d/g, maskCharacter);
+}
+
+
+
+
+
+        </script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script>
+            function validateform(){
+            var x = document.myform.cnum.value
+            var y = document.myform.cname.value
+            var z = document.myform.rmobile.value
+
+            if (x==null || x==""){
+                alert(" Card Number cannot be empty !!")
+                return false
+                }
+            else if(x.length<16){
+                alert("Card Number must  16 characters")
+                return false
+                }
+            if (y==null || y==""){
+                    alert("Name cannot be empty !!")
+                    return false
+                    }
+            }
+        </script>
+
+    </body>
+</html>
+
+
+
+
+

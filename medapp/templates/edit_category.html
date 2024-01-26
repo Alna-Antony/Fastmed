@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% extends 'index.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method="post" action="{% url 'catupdate' catid=cat.id  %}">
+    {% csrf_token %}
+     <div class="form-group">
+                        <label for="exampleInputUsername1">Categoryname</label>
+                        <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Categoryname" name="cname" value="{{ cat.categoryname }}">
+                      </div>
+                        <div class="form-group">
+                        <label for="exampleTextarea1">Description</label>
+                        <textarea class="form-control" id="exampleTextarea1" rows="4" name="cdes">{{ cat.description }}</textarea>
+                      </div>
+    <div class="form-group">
+                        <label>File upload</label>
+        <img src="{{ cat.categoryimage.url }}">
+                        <input type="file" placeholder="upload image" name="cimg"  >
+                      </div>
+     <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                      <button class="btn btn-dark">Cancel</button>
+</form>
+</body>
+</html>
+{% endblock %}
